@@ -1,7 +1,5 @@
 package Analizador;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 import java.util.Stack;
 
@@ -70,6 +68,43 @@ public class Analizador {
                 return "[ Sintaxis incorrecta ]";
             }
         }
+    }
+
+    private String Simbolo(){
+        String Simbolo_Entrada = (tokens.get(Elemento_token).tipo == TipoToken.IDENTIFICADOR) ? "id" : tokens.get(Elemento_token).lexema;
+        Elemento_token++;
+        return Simbolo_Entrada;
+    }
+
+    private String Accion (String estado, String simbolo){
+        int fila=-1, columna=-1;
+
+        for(int i=0;i<27;i++){
+            if(Tabla[i][0].equals(estado)){
+                columna=i;
+                break;
+            }
+        }
+
+        for(int i=0;i<20;i++){
+            if(Tabla[0][i].equals(simbolo)){
+                fila=i;
+                break;
+            }
+        }
+        return Tabla[columna][fila];
+    }
+
+    private String Ir_A (String estado, int simbolo){
+        int columna=-1;
+
+        for(int i=0;i<27;i++){
+            if(Tabla[i][0].equals(estado)){
+                columna=i;
+                break;
+            }
+        }
+        return Tabla[columna][simbolo];
     }
 
 }

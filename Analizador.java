@@ -43,6 +43,33 @@ public class Analizador {
     public Analizador(List<Token> tokens){
         this.tokens=tokens;
     }
-    
+
+    public String Comportamiento(){
+
+        Stack <String> Pila = new Stack<>();
+        String simbolo=Simbolo();
+        Pila.push("0");
+
+        while(true) {
+            String accion=Accion(Pila.peek(),simbolo);
+            if(!accion.isEmpty() &&  accion.charAt(0)=='s'){
+                Pila.push(accion.substring(1));
+                simbolo=Simbolo();
+
+            }
+            else if(!accion.isEmpty() && accion.charAt(0)=='r'){
+                for(int i=0;i<Simbolos_Reducir[Integer.parseInt(accion.substring(1))][1];i++){
+                    Pila.pop();
+                }
+                Pila.push(Ir_A(Pila.peek(),Simbolos_Reducir[Integer.parseInt(accion.substring(1))][0]));
+            }
+            else if (accion.equals("acc")){
+                return "[ Sintaxis correcta ]";
+            }
+            else{
+                return "[ Sintaxis incorrecta ]";
+            }
+        }
+    }
 
 }
